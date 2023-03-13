@@ -155,7 +155,7 @@ Connection connection;
                             txtnombre.setText(rs.getString("nombre"));
                             txtapellido.setText(rs.getString("apellido"));
                             txtdireccion.setText(rs.getString("direccion"));
-                            cboperadora.setSelectedItem(rs.getString("operadora"));
+                            cboperadora.addItem(rs.getString("operadora"));
                         }while (rs.next());
                         JOptionPane.showMessageDialog(null,"Numero Encontrado||Listo");
                     }else {
@@ -237,7 +237,7 @@ Connection connection;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
-            System.out.println("si se conecto");
+           // System.out.println("si se conecto");
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e);
         }
