@@ -32,7 +32,7 @@ public class agenda {
             Operadora oOperadora = (Operadora) iterator.next();
             cboperadora.addItem(oOperadora);
         }
-    }
+    }//
     public ArrayList getListOperadorap()
     {
 
