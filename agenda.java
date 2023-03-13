@@ -246,7 +246,7 @@ Connection connection;
 
     }
     public static void main(String[] args) {
-        JFrame frame=new JFrame("Tienda de abarrotes");
+        JFrame frame=new JFrame("AGENDA");
         frame.setContentPane(new agenda().panel1);
         frame.setSize(300,300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
