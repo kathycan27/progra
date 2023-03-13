@@ -62,7 +62,14 @@ public class agenda {
     ResultSet rs;
     Statement st;
 
-
+    private static boolean isNumeric(String cadena){
+        try {
+            Integer.parseInt(cadena);
+            return true;
+        } catch (NumberFormatException nfe){
+            return false;
+        }
+    }
 Connection connection;
     public agenda() {
         oListaOperadoras=new ArrayList();
@@ -73,47 +80,53 @@ Connection connection;
             @Override
             public void actionPerformed(ActionEvent e) {
                 connection = getConection();
-                String opero = cboperadora.getSelectedItem().toString();
-                if(txtnumero.getText().equals(""))
-                {
-                    JOptionPane.showMessageDialog(null, "Uno varios campos vacios");
-                }else {
-                    try {
+                    String opero = cboperadora.getSelectedItem().toString();
+                    if (txtnumero.getText().equals("")) {
 
-                        st = connection.createStatement();
-                        rs = st.executeQuery("select * from usuario where numero=" + txtnumero.getText() + ";");
+                        JOptionPane.showMessageDialog(null, "Uno varios campos vacios");
+                    } else {
+                        if (isNumeric(txtnumero.getText())) {
+                        try {
 
-                        if(rs.next()){
+                            st = connection.createStatement();
+                            rs = st.executeQuery("select * from usuario where numero=" + txtnumero.getText() + ";");
 
-                            JOptionPane.showMessageDialog(null,"Codigo ya ocupado||Producto ya registrado");
-                        }else {
-                            try {
+                            if (rs.next()) {
 
-                                ps = connection.prepareStatement("INSERT INTO usuario(numero,nombre,apellido,direccion,operadora) VALUES (?,?,?,?,?)");
+                                JOptionPane.showMessageDialog(null, "Codigo ya ocupado||Producto ya registrado");
+                            } else {
+                                try {
 
-
-                                ps.setString(1, txtnumero.getText());
-                                ps.setString(2, txtnombre.getText());
-                                ps.setString(3, txtapellido.getText());
-                                ps.setString(4, txtdireccion.getText());
-                                ps.setString(5, opero);
+                                    ps = connection.prepareStatement("INSERT INTO usuario(numero,nombre,apellido,direccion,operadora) VALUES (?,?,?,?,?)");
 
 
-                                int res = ps.executeUpdate();
+                                    ps.setString(1, txtnumero.getText());
+                                    ps.setString(2, txtnombre.getText());
+                                    ps.setString(3, txtapellido.getText());
+                                    ps.setString(4, txtdireccion.getText());
+                                    ps.setString(5, opero);
 
-                                if (res > 0) {
-                                    JOptionPane.showMessageDialog(null, "Se creo de manera correta");
+
+                                    int res = ps.executeUpdate();
+
+                                    if (res > 0) {
+                                        JOptionPane.showMessageDialog(null, "Se creo de manera correta");
+
+                                    }
+
+                                } catch (HeadlessException | SQLException f) {
+                                    System.out.println(f);
 
                                 }
+                            }
+                        } catch (Exception s) {
 
-                            } catch (HeadlessException | SQLException f) {
-                                System.out.println(f);
-
-                            }}}
-                    catch (Exception s) {
-
-                    }    }}
-
+                        }
+                    } else {
+                            JOptionPane.showMessageDialog(null,"El campo debe ser un numero");
+                        }
+                }
+            }
 
 
         });
@@ -129,6 +142,7 @@ Connection connection;
                 Connection con;
 
                 String oper = cboperadora.getSelectedItem().toString();
+                if (isNumeric(txtnumero.getText())) {
 
                 try {
                     con = getConection();
@@ -152,6 +166,10 @@ Connection connection;
                 }
 
             }
+            else
+            {
+              JOptionPane.showMessageDialog(null,"El campo debe tener un numero");
+            }}
         });
         btnmodificar.addActionListener(new ActionListener() {
             @Override
